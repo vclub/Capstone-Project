@@ -5,4 +5,7 @@ package com.testerhome.android.app;
  */
 
 public class Config {
+
+    public static final String BASE_URL = "https://testerhome.com/api/v3/";
+    public static final String TOPICS_TYPE_RECENT = "recent";
 }

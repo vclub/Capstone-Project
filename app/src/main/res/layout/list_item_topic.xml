@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fresco="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/rl_topic_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_topic_user_avatar"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginRight="16dp"
+        fresco:roundAsCircle="true"/>
+
+    <TextView
+        android:id="@+id/tv_topic_title"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/sdv_topic_user_avatar"
+        android:maxLines="2"
+        android:minLines="2"
+        tools:text="Here is the title"/>
+
+    <TextView
+        android:id="@+id/tv_topic_username"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_topic_title"
+        android:layout_toRightOf="@+id/sdv_topic_user_avatar"
+        tools:text="username"/>
+
+    <TextView
+        android:id="@+id/tv_topic_publish_date"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tv_topic_title"
+        tools:text="datetime"/>
+
+    <TextView
+        android:id="@+id/tv_topic_name"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_topic_username"
+        android:layout_toRightOf="@+id/sdv_topic_user_avatar"
+        tools:text="node name"/>
+
+    <TextView
+        android:id="@+id/tv_topic_replies_count"
+        style="@style/TextAppearance.AppCompat.Inverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tv_topic_username"
+        android:background="@android:color/holo_red_dark"
+        tools:text="replies count"/>
+</RelativeLayout>
