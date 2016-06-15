@@ -1,6 +1,7 @@
 package com.testerhome.android.app.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.testerhome.android.app.R;
 import com.testerhome.android.app.models.TopicEntity;
+import com.testerhome.android.app.ui.TopicDetailActivity;
 import com.testerhome.android.app.util.ImageUrlConvert;
 import com.testerhome.android.app.util.StringUtils;
 
@@ -22,7 +24,7 @@ import butterknife.ButterKnife;
  * Created by Bin Li on 2016/6/14.
  */
 
-public class TopicsListAdapter extends BaseRecyclerAdapter<TopicEntity>{
+public class TopicsListAdapter extends BaseRecyclerAdapter<TopicEntity> {
 
 
     public TopicsListAdapter(Context context) {
@@ -49,10 +51,10 @@ public class TopicsListAdapter extends BaseRecyclerAdapter<TopicEntity>{
 
         holder.topicName.setText(topic.getNode_name());
 
-        holder.topicItem.setTag(topic.getId());
+        holder.topicItem.setTag(topic);
         holder.topicItem.setOnClickListener(v -> {
-            String topicId = (String) v.getTag();
-            // goto detail
+            TopicEntity info = (TopicEntity) v.getTag();
+            mContext.startActivity(new Intent(mContext, TopicDetailActivity.class).putExtra("topicInfo", info));
         });
     }
 
