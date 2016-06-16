@@ -1,5 +1,6 @@
 package com.testerhome.android.app.fragment;
 
+import android.os.Bundle;
 import android.widget.TextView;
 
 import com.testerhome.android.app.R;
@@ -14,6 +15,15 @@ public class CommentListFragment extends BaseFragment {
 
     @BindView(R.id.info_test)
     TextView mTextView;
+
+    public static CommentListFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        CommentListFragment fragment = new CommentListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     protected int getLayoutRes() {

@@ -24,6 +24,15 @@ public class WebViewFragment extends BaseFragment {
     @BindView(R.id.md_view)
     WebView mMarkedView;
 
+    public static WebViewFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        WebViewFragment fragment = new WebViewFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -48,7 +57,7 @@ public class WebViewFragment extends BaseFragment {
                     String prompt = "";
                     prompt = prompt.concat(response.getTopic().getBody_html().replace("<img src=\"/photo/",
                             "<img src=\"https://testerhome.com/photo/")).concat("</body></html>");
-                    mMarkedView.loadDataWithBaseURL(null, prompt, "text/html", "utf-8", null);
+                    mMarkedView.loadDataWithBaseURL("https://testhome.com/photo/", prompt, "text/html", "utf-8", null);
                 }, error->{
                     Log.e(TAG, "loadTopicDetail: ", error);
                 });
