@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import com.testerhome.android.app.R;
 import com.testerhome.android.app.fragment.CommentListFragment;
+import com.testerhome.android.app.fragment.WebViewFragment;
 import com.testerhome.android.app.models.TopicEntity;
 
 import butterknife.BindView;
@@ -50,6 +51,7 @@ public class TopicDetailActivity extends BackBaseActivity {
     }
 
     private TabPageAdapter mAdapter;
+
     private void initView() {
         mAdapter = new TabPageAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
@@ -103,13 +105,12 @@ public class TopicDetailActivity extends BackBaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-//            switch (position) {
-//                case 0:
-//                    return WebViewFragment.newInstance();
-//                default:
-//                    return CommentListFragment.newInstance();
-//            }
-            return CommentListFragment.newInstance();
+            switch (position) {
+                case 0:
+                    return WebViewFragment.newInstance();
+                default:
+                    return CommentListFragment.newInstance();
+            }
         }
 
         @Override

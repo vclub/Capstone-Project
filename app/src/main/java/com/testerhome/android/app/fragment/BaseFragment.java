@@ -17,21 +17,27 @@ import rx.Subscription;
 
 public abstract class BaseFragment extends Fragment {
 
+    protected View mContentView;
     protected Subscription mSubscription;
     protected Unbinder mUnbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayoutRes(), container, false);
-        mUnbinder = ButterKnife.bind(this, view);
-
-        initView();
-        return super.onCreateView(inflater, container, savedInstanceState);
+        if (mContentView == null){
+            initView(savedInstanceState);
+        } else {
+            ViewGroup parent = (ViewGroup)mContentView.getParent();
+            if (parent != null){
+                parent.removeAllViews();
+            }
+        }
+        return mContentView;
     }
 
-    protected void initView(){
-
+    protected void initView(Bundle savedInstanceState){
+        mContentView = LayoutInflater.from(getContext()).inflate(getLayoutRes(), null);
+        mUnbinder = ButterKnife.bind(this, mContentView);
     }
 
     protected abstract int getLayoutRes();

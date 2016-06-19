@@ -2,7 +2,6 @@ package com.testerhome.android.app.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.webkit.WebView;
 
@@ -35,8 +34,8 @@ public class WebViewFragment extends BaseFragment {
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    protected void initView(Bundle savedInstanceState) {
+        super.initView(savedInstanceState);
 
         mMarkedView.getSettings().setJavaScriptEnabled(true);
     }
