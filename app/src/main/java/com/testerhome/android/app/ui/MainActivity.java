@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.testerhome.android.app.Config;
 import com.testerhome.android.app.R;
 import com.testerhome.android.app.networks.TesterHomeApi;
@@ -40,6 +41,8 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.main_recycler_view)
     RecyclerView mRecyclerView;
 
+    SimpleDraweeView mAccountAvatar;
+
     private TopicsListAdapter mTopicsListAdapter;
 
     private static final String TAG = "MainActivity";
@@ -53,7 +56,7 @@ public class MainActivity extends BaseActivity
         loadMainInfo();
     }
 
-    private void setupView(){
+    private void setupView() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.setDrawerListener(toggle);
@@ -61,28 +64,35 @@ public class MainActivity extends BaseActivity
 
         mNavigationView.setNavigationItemSelectedListener(this);
         View headerLayout = mNavigationView.inflateHeaderView(R.layout.nav_header_main);
-
+        mAccountAvatar = (SimpleDraweeView) headerLayout.findViewById(R.id.sdv_account_avatar);
+        mAccountAvatar.setOnClickListener(v->{
+            onAvatarClick();
+        });
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mTopicsListAdapter = new TopicsListAdapter(this);
         mRecyclerView.setAdapter(mTopicsListAdapter);
     }
 
+    private void onAvatarClick(){
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
     @OnClick(R.id.fab)
-    void onFabClick(View view){
+    void onFabClick(View view) {
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
-    private void loadMainInfo(){
+    private void loadMainInfo() {
         mSubscription = TesterHomeApi.getInstance().getService()
                 .getTopicsByType(Config.TOPICS_TYPE_RECENT, 20)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response->{
+                .subscribe(response -> {
                     mTopicsListAdapter.setItems(response.getTopics());
-                    Log.e(TAG, "loadMainInfo: " + response.getTopics().size() );
-                }, error->{
+                    Log.e(TAG, "loadMainInfo: " + response.getTopics().size());
+                }, error -> {
                     Log.e(TAG, "loadMainInfo: ", error);
                 });
     }
@@ -107,7 +117,7 @@ public class MainActivity extends BaseActivity
         MenuItem searchItem = menu.findItem(R.id.action_search);
 
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        if (mSearchView != null){
+        if (mSearchView != null) {
             mSearchView.setOnQueryTextListener(this);
         }
         return true;
@@ -151,7 +161,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (!TextUtils.isEmpty(query)){
+        if (!TextUtils.isEmpty(query)) {
             startActivity(new Intent(this, SearchActivity.class).putExtra("keyword", query));
         }
         return false;
