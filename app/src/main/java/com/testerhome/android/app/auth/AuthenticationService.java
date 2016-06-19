@@ -8,8 +8,9 @@ public class AuthenticationService {
 
     public static final String AUTHORIZATION_URL = "https://testerhome.com/oauth/authorize";
 
-    private static final String API_KEY = "6dbe4244";
+    private static final String API_KEY = "85a67646";
     private static final String STATE = "E3ZYKC1T6H2yP4z";
+
     public static final String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
 
     private static final String RESPONSE_TYPE_PARAM = "response_type";
