@@ -9,6 +9,8 @@ import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFact
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.leakcanary.LeakCanary;
 
 import okhttp3.OkHttpClient;
@@ -34,5 +36,24 @@ public class TesterHomeApp extends Application {
 
         LeakCanary.install(this);
         Stetho.initializeWithDefaults(this);
+
+        mTracker = getDefaultTracker();
+        mTracker.enableExceptionReporting(true);
+        mTracker.enableAutoActivityTracking(true);
+    }
+
+    private Tracker mTracker;
+
+    /**
+     * Gets the default {@link Tracker} for this {@link Application}.
+     * @return tracker
+     */
+    synchronized public Tracker getDefaultTracker() {
+        if (mTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+            mTracker = analytics.newTracker("UA-79133086-1");
+        }
+        return mTracker;
     }
 }

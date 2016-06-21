@@ -6,7 +6,9 @@ package com.testerhome.android.app.auth;
 
 public class AuthenticationService {
 
+    public static final String BASEURL = "https://testerhome.com/";
     public static final String AUTHORIZATION_URL = "https://testerhome.com/oauth/authorize";
+    public static final String ACCESS_TOKEN_URL = "https://testerhome.com/oauth/token";
 
     private static final String API_KEY = "85a67646";
     private static final String STATE = "E3ZYKC1T6H2yP4z";
@@ -33,5 +35,9 @@ public class AuthenticationService {
                 + AMPERSAND + CLIENT_ID_PARAM + EQUALS + API_KEY
                 + AMPERSAND + STATE_PARAM + EQUALS + STATE
                 + AMPERSAND + REDIRECT_URI_PARAM + EQUALS + REDIRECT_URI;
+    }
+
+    public static String getApiKey() {
+        return API_KEY;
     }
 }

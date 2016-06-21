@@ -2,6 +2,7 @@ package com.testerhome.android.app.networks;
 
 import com.testerhome.android.app.models.TopicDetailResponse;
 import com.testerhome.android.app.models.TopicsResponse;
+import com.testerhome.android.app.models.UserDetailResponse;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -20,4 +21,7 @@ public interface TesterHomeService {
 
     @GET("topics/{id}.json")
     Observable<TopicDetailResponse> getTopicById(@Path("id") String id);
+
+    @GET("greet.json")
+    Observable<UserDetailResponse> getCurrentUserInfo(@Query("access_token") String accessToken);
 }

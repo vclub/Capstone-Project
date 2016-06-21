@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">TesterHome</string>
 
+    <string name="ACCOUNT_TYPE">com.testerhome.android.app.AccountType</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
