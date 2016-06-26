@@ -107,7 +107,7 @@ public class TopicDetailActivity extends BackBaseActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return WebViewFragment.newInstance();
+                    return WebViewFragment.newInstance(mTopicEntity.getId());
                 default:
                     return CommentListFragment.newInstance();
             }

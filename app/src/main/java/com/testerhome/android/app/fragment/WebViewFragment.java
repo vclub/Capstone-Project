@@ -23,12 +23,15 @@ public class WebViewFragment extends BaseFragment {
     @BindView(R.id.md_view)
     WebView mMarkedView;
 
-    public static WebViewFragment newInstance() {
+    private String mTopicId;
+
+    public static WebViewFragment newInstance(String topicId) {
 
         Bundle args = new Bundle();
 
         WebViewFragment fragment = new WebViewFragment();
         fragment.setArguments(args);
+        fragment.mTopicId = topicId;
         return fragment;
     }
 
@@ -38,6 +41,8 @@ public class WebViewFragment extends BaseFragment {
         super.initView(savedInstanceState);
 
         mMarkedView.getSettings().setJavaScriptEnabled(true);
+
+        loadTopicDetail(mTopicId);
     }
 
     @Override

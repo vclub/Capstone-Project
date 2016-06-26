@@ -1,6 +1,7 @@
 package com.testerhome.android.app.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -16,10 +17,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.testerhome.android.app.Config;
 import com.testerhome.android.app.R;
+import com.testerhome.android.app.auth.AppAccountService;
+import com.testerhome.android.app.models.TesterUser;
 import com.testerhome.android.app.networks.TesterHomeApi;
 import com.testerhome.android.app.ui.adapters.TopicsListAdapter;
 
@@ -41,11 +46,15 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.main_recycler_view)
     RecyclerView mRecyclerView;
 
-    SimpleDraweeView mAccountAvatar;
+    private SimpleDraweeView mAccountAvatar;
+    private TextView mAccountName;
+    private Button mLogout;
 
     private TopicsListAdapter mTopicsListAdapter;
 
     private static final String TAG = "MainActivity";
+
+    private TesterUser mTesterUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +63,8 @@ public class MainActivity extends BaseActivity
 
         setupView();
         loadMainInfo();
+
+        getUserInfo();
     }
 
     private void setupView() {
@@ -65,8 +76,13 @@ public class MainActivity extends BaseActivity
         mNavigationView.setNavigationItemSelectedListener(this);
         View headerLayout = mNavigationView.inflateHeaderView(R.layout.nav_header_main);
         mAccountAvatar = (SimpleDraweeView) headerLayout.findViewById(R.id.sdv_account_avatar);
-        mAccountAvatar.setOnClickListener(v->{
+        mAccountAvatar.setOnClickListener(v -> {
             onAvatarClick();
+        });
+        mAccountName = (TextView)headerLayout.findViewById(R.id.tv_account_username);
+        mLogout= (Button)headerLayout.findViewById(R.id.btn_logout);
+        mLogout.setOnClickListener(v->{
+            onLogoutClick();
         });
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -74,7 +90,39 @@ public class MainActivity extends BaseActivity
         mRecyclerView.setAdapter(mTopicsListAdapter);
     }
 
-    private void onAvatarClick(){
+    private void onLogoutClick() {
+        AppAccountService.getInstance(this).logout();
+        mTesterUser = null;
+        updateUserInfo();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateUserInfo();
+    }
+
+    private void updateUserInfo() {
+        mTesterUser = null;
+        if (!TextUtils.isEmpty(getUserInfo().getLogin())) {
+            mAccountAvatar.setImageURI(Uri.parse(Config.getImageUrl(mTesterUser.getAvatar_url())));
+            mAccountName.setText(mTesterUser.getName());
+            mLogout.setVisibility(View.VISIBLE);
+        } else {
+            mAccountAvatar.setImageResource(R.mipmap.ic_launcher);
+            mAccountName.setText("Please login by click on the avatar");
+            mLogout.setVisibility(View.GONE);
+        }
+    }
+
+    private TesterUser getUserInfo() {
+        if (mTesterUser == null) {
+            mTesterUser = AppAccountService.getInstance(getApplicationContext()).getActiveAccountInfo();
+        }
+        return mTesterUser;
+    }
+
+    private void onAvatarClick() {
         startActivity(new Intent(this, LoginActivity.class));
     }
 
