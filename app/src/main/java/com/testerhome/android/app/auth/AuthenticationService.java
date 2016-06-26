@@ -10,7 +10,8 @@ public class AuthenticationService {
     public static final String AUTHORIZATION_URL = "https://testerhome.com/oauth/authorize";
     public static final String ACCESS_TOKEN_URL = "https://testerhome.com/oauth/token";
 
-    private static final String API_KEY = "85a67646";
+    public static final String API_KEY = "85a67646";
+    public static final String SECRET_KEY = "3ee4256e7afb13c8bdb5eb955ecfbaecdf73cbe48046a10195a61f56aa8034d0";
     private static final String STATE = "E3ZYKC1T6H2yP4z";
 
     public static final String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
@@ -37,7 +38,4 @@ public class AuthenticationService {
                 + AMPERSAND + REDIRECT_URI_PARAM + EQUALS + REDIRECT_URI;
     }
 
-    public static String getApiKey() {
-        return API_KEY;
-    }
 }

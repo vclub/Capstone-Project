@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.testerhome.android.app.R;
+import com.testerhome.android.app.auth.AppAccountService;
 import com.testerhome.android.app.auth.AuthenticationService;
 import com.testerhome.android.app.models.OAuth;
 import com.testerhome.android.app.networks.TesterHomeApi;
@@ -49,10 +51,10 @@ public class LoginActivity extends BackBaseActivity {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private void setupView(){
+    private void setupView() {
         mLoginView.getSettings().setJavaScriptEnabled(true);
 
-        mLoginView.setWebViewClient(new WebViewClient(){
+        mLoginView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.startsWith(AuthenticationService.AUTHORIZATION_URL)) {
@@ -91,17 +93,15 @@ public class LoginActivity extends BackBaseActivity {
         @Override
         protected Boolean doInBackground(String... urls) {
             if (urls.length > 0) {
-
                 String url = urls[0];
                 OkHttpClient okHttpClient = new OkHttpClient();
 
-
-                FormBody formBody =  new FormBody.Builder()
-                        .add("client_id", AuthenticationService.getApiKey())
+                FormBody formBody = new FormBody.Builder()
+                        .add("client_id", AuthenticationService.API_KEY)
                         .add("code", auth_code)
                         .add("grant_type", "authorization_code")
                         .add("redirect_uri", AuthenticationService.REDIRECT_URI)
-                        .add("client_secret", "3a20127eb087257ad7196098bfd8240746a66b0550d039eb2c1901c025e7cbea")
+                        .add("client_secret", AuthenticationService.SECRET_KEY)
                         .build();
 
                 Request request = new Request.Builder()
@@ -116,17 +116,16 @@ public class LoginActivity extends BackBaseActivity {
                         //Convert the string result to a JSON Object
                         String responseStr = response.body().string();
 
-                        Gson gson = new Gson();
-                        OAuth oAuth = gson.fromJson(responseStr,OAuth.class);
+                        OAuth oAuth = new Gson().fromJson(responseStr, OAuth.class);
                         if (oAuth.getExpires_in() > 0 && oAuth.getAccess_token() != null) {
                             getUserInfo(oAuth);
                             return true;
                         }
                     } else {
-                        Log.e("Tokenm", "error:" + response.message());
+                        Toast.makeText(LoginActivity.this, "error:" + response.message(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Log.e("Tokenm", "error:" + response.message());
+                    Toast.makeText(LoginActivity.this, "error:" + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
             return false;
@@ -134,11 +133,10 @@ public class LoginActivity extends BackBaseActivity {
 
         @Override
         protected void onPostExecute(Boolean status) {
-            if (status) {
-                if (pd != null && pd.isShowing()) {
-                    pd.dismiss();
-                }
-            }else {
+            if (pd != null && pd.isShowing()) {
+                pd.dismiss();
+            }
+            if (!status) {
                 mLoginView.setVisibility(View.VISIBLE);
                 mLoginView.loadUrl(AuthenticationService.getAuthorizationUrl());
             }
@@ -154,8 +152,8 @@ public class LoginActivity extends BackBaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userDetailResponse -> {
                     if (userDetailResponse != null) {
-//                        AppAccountService.getInstance(this)
-//                                .signIn(userDetailResponse.getUser().getLogin(), userDetailResponse.getUser(), oAuth);
+                        AppAccountService.getInstance(this).login(userDetailResponse.getUser().getLogin(),
+                                userDetailResponse.getUser(), oAuth);
                         this.finish();
                     }
                 });
@@ -163,7 +161,7 @@ public class LoginActivity extends BackBaseActivity {
 
     @Override
     protected void onDestroy() {
-        if (mLoginView != null){
+        if (mLoginView != null) {
             mLoginView.stopLoading();
             mLoginView.removeAllViews();
             mLoginView.destroy();
