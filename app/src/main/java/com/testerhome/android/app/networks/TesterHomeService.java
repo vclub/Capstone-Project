@@ -1,6 +1,7 @@
 package com.testerhome.android.app.networks;
 
 import com.testerhome.android.app.models.TopicDetailResponse;
+import com.testerhome.android.app.models.TopicReplyResponse;
 import com.testerhome.android.app.models.TopicsResponse;
 import com.testerhome.android.app.models.UserDetailResponse;
 
@@ -24,4 +25,10 @@ public interface TesterHomeService {
 
     @GET("greet.json")
     Observable<UserDetailResponse> getCurrentUserInfo(@Query("access_token") String accessToken);
+
+
+    @GET("topics/{id}/replies.json")
+    Observable<TopicReplyResponse> getTopicsReplies(@Path("id") String id,
+                                                    @Query("offset") int offset
+    );
 }
