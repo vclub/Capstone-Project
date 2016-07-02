@@ -1,6 +1,7 @@
 package com.testerhome.android.app.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -10,13 +11,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.ShareActionProvider;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.testerhome.android.app.R;
 import com.testerhome.android.app.fragment.CommentListFragment;
 import com.testerhome.android.app.fragment.WebViewFragment;
 import com.testerhome.android.app.models.TopicEntity;
+import com.testerhome.android.app.util.ImageUrlConvert;
+import com.testerhome.android.app.util.StringUtils;
 
 import butterknife.BindView;
 
@@ -36,6 +42,24 @@ public class TopicDetailActivity extends BackBaseActivity {
 
     private TopicEntity mTopicEntity;
 
+    @BindView(R.id.sdv_topic_user_avatar)
+    SimpleDraweeView topicUserAvatar;
+
+    @BindView(R.id.tv_topic_title)
+    TextView textViewTopicTitle;
+
+    @BindView(R.id.tv_topic_username)
+    TextView topicUsername;
+
+    @BindView(R.id.tv_topic_publish_date)
+    TextView topicPublishDate;
+
+    @BindView(R.id.tv_topic_name)
+    TextView topicName;
+
+    @BindView(R.id.tv_topic_replies_count)
+    TextView topicRepliesCount;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +67,11 @@ public class TopicDetailActivity extends BackBaseActivity {
 
         if (getIntent().hasExtra("topicInfo")) {
             mTopicEntity = getIntent().getParcelableExtra("topicInfo");
+            initView();
         } else {
             finish();
         }
 
-        initView();
     }
 
     private TabPageAdapter mAdapter;
@@ -57,6 +81,12 @@ public class TopicDetailActivity extends BackBaseActivity {
         mViewPager.setAdapter(mAdapter);
 
         mTabLayout.setupWithViewPager(mViewPager);
+
+        topicUserAvatar.setImageURI(Uri.parse(ImageUrlConvert.getImageUrl(mTopicEntity.getUser().getAvatar_url())));
+        textViewTopicTitle.setText(mTopicEntity.getTitle());
+        topicUsername.setText(TextUtils.isEmpty(mTopicEntity.getUser().getName()) ? mTopicEntity.getUser().getLogin() : mTopicEntity.getUser().getName());
+        topicPublishDate.setText(StringUtils.formatPublishDateTime(mTopicEntity.getCreated_at()));
+        topicName.setText(mTopicEntity.getNode_name());
     }
 
     private ShareActionProvider mShareActionProvider;
@@ -69,7 +99,7 @@ public class TopicDetailActivity extends BackBaseActivity {
 
         final Intent target = new Intent(Intent.ACTION_SEND);
         target.setType("text/plain");
-        target.putExtra(Intent.EXTRA_TITLE, "dddddd");
+        target.putExtra(Intent.EXTRA_TITLE, mTopicEntity.getTitle());
         target.putExtra(Intent.EXTRA_TEXT, String.format("https://testerhome.com/topics/%s", mTopicEntity.getId()));
         mShareActionProvider.setShareIntent(target);
 
@@ -85,12 +115,12 @@ public class TopicDetailActivity extends BackBaseActivity {
     }
 
     // Somewhere in the application.
-    public void doShare() {
+    private void doShare() {
         // When you want to share set the share intent.
 
         final Intent target = new Intent(Intent.ACTION_SEND);
         target.setType("text/plain");
-        target.putExtra(Intent.EXTRA_TITLE, "dddddd");
+        target.putExtra(Intent.EXTRA_TITLE, mTopicEntity.getTitle());
         target.putExtra(Intent.EXTRA_TEXT, String.format("https://testerhome.com/topics/%s", mTopicEntity.getId()));
         mShareActionProvider.setShareIntent(target);
     }

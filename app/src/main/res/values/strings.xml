@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">TesterHome</string>
 
-    <string name="ACCOUNT_TYPE">com.testerhome.android.app.AccountType</string>
+    <string name="ACCOUNT_TYPE" translatable="false">com.testerhome.android.app.AccountType</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -9,4 +9,6 @@
     <string name="action_settings">Settings</string>
 
     <string name="action_topic_detail_share">Share</string>
+
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

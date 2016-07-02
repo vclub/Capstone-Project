@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -36,6 +37,9 @@ public class LoginActivity extends BackBaseActivity {
 
     @BindView(R.id.login_view)
     WebView mLoginView;
+
+    @BindView(R.id.loading)
+    ProgressBar mProgressBar;
 
     private ProgressDialog pd;
     private String auth_code = "";
@@ -73,6 +77,12 @@ public class LoginActivity extends BackBaseActivity {
                 }
                 view.loadUrl(url);
                 return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                mProgressBar.setVisibility(View.GONE);
+                super.onPageFinished(view, url);
             }
         });
 

@@ -2,4 +2,6 @@
 <resources>
     <string name="action_settings">设置</string>
     <string name="action_topic_detail_share">分享</string>
+    <string name="navigation_drawer_close">关闭</string>
+    <string name="navigation_drawer_open">打开</string>
 </resources>

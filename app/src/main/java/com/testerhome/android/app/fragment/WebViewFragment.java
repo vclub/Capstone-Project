@@ -1,12 +1,19 @@
 package com.testerhome.android.app.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.testerhome.android.app.R;
 import com.testerhome.android.app.networks.TesterHomeApi;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import butterknife.BindView;
 import rx.android.schedulers.AndroidSchedulers;
@@ -22,6 +29,9 @@ public class WebViewFragment extends BaseFragment {
 
     @BindView(R.id.md_view)
     WebView mMarkedView;
+
+    @BindView(R.id.loading)
+    ProgressBar mProgressBar;
 
     private String mTopicId;
 
@@ -41,6 +51,13 @@ public class WebViewFragment extends BaseFragment {
         super.initView(savedInstanceState);
 
         mMarkedView.getSettings().setJavaScriptEnabled(true);
+        mMarkedView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                mProgressBar.setVisibility(View.GONE);
+                super.onPageFinished(view, url);
+            }
+        });
 
         loadTopicDetail(mTopicId);
     }
@@ -54,16 +71,33 @@ public class WebViewFragment extends BaseFragment {
         mSubscription = TesterHomeApi.getInstance().getService().getTopicById(topidId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response->{
-                    Log.e(TAG, "loadTopicDetail: " + response.getTopic().getBody_html() );
-                    // mMarkedView.setMDText(response.getTopic().getBody_html());
-
-                    String prompt = "";
-                    prompt = prompt.concat(response.getTopic().getBody_html().replace("<img src=\"/photo/",
-                            "<img src=\"https://testerhome.com/photo/")).concat("</body></html>");
-                    mMarkedView.loadDataWithBaseURL("https://testhome.com/photo/", prompt, "text/html", "utf-8", null);
-                }, error->{
+                .subscribe(response -> {
+                    Log.e(TAG, "loadTopicDetail: " + response.getTopic().getBody());
+                    showWebContent(response.getTopic().getBody_html());
+                }, error -> {
                     Log.e(TAG, "loadTopicDetail: ", error);
                 });
+    }
+
+    public void showWebContent(String htmlBody) {
+        String prompt = "";
+        AssetManager assetManager = getActivity().getResources().getAssets();
+
+        try {
+            InputStream inputStream = assetManager.open("html/md_preview.html");
+
+            byte[] b = new byte[inputStream.available()];
+            inputStream.read(b);
+            prompt = new String(b);
+            prompt = prompt.replace("$container", htmlBody.replace("<img src=\"/photo/",
+                    "<img src=\"https://testerhome.com/photo/"));
+            inputStream.close();
+        } catch (IOException e) {
+            Log.e("", "Counldn't open updrage-alter.html", e);
+        }
+
+        mMarkedView.setBackgroundColor(0);
+        mMarkedView.loadDataWithBaseURL(null, prompt, "text/html", "utf-8", null);
+
     }
 }
