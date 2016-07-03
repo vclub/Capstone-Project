@@ -46,6 +46,11 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator"/>
         </service>
+
+        <provider
+            android:name="com.testerhome.android.app.provider.TesterHomeProvider"
+            android:authorities="com.testerhome.android.app.provider"
+            android:exported="false" />
     </application>
 
 </manifest>
