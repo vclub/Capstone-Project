@@ -139,7 +139,7 @@ public class TopicDetailActivity extends BackBaseActivity {
                 case 0:
                     return WebViewFragment.newInstance(mTopicEntity.getId());
                 default:
-                    return CommentListFragment.newInstance();
+                    return CommentListFragment.newInstance(mTopicEntity.getId());
             }
         }
 

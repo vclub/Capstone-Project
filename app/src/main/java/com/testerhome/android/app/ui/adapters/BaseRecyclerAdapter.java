@@ -12,7 +12,7 @@ import java.util.List;
 
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<T> mItems;
+    protected List<T> mItems;
     protected Context mContext;
 
     public BaseRecyclerAdapter(Context context) {
@@ -40,5 +40,16 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     @Override
     public int getItemCount() {
         return mItems.size();
+    }
+
+    protected RecyclerAdapterListener<T> mListener;
+
+    public void setListener(RecyclerAdapterListener listener) {
+        mListener = listener;
+    }
+
+    public interface RecyclerAdapterListener<T>{
+        void onEndOfList();
+        void onListItemClick(T item);
     }
 }

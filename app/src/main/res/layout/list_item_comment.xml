@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fresco="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/id_topic_reply_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/id_user_avatar"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        fresco:actualImageScaleType="focusCrop"
+        fresco:placeholderImage="@mipmap/ic_launcher"
+        fresco:roundAsCircle="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:id="@+id/id_topic_item_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/id_user_avatar"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_toRightOf="@+id/id_user_avatar"
+        android:layout_toEndOf="@+id/id_user_avatar"
+        android:textSize="14sp"
+        tools:text="topic author" />
+
+    <TextView
+        android:id="@+id/id_topic_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/id_user_avatar"
+        android:layout_toRightOf="@+id/id_topic_item_author"
+        tools:text="topic time" />
+
+    <TextView
+        android:id="@+id/id_topic_item_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/id_topic_item_author"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/id_user_avatar"
+        android:layout_toEndOf="@+id/id_user_avatar"
+        android:autoLink="email|web"
+        tools:text="topic content" />
+
+
+
+</RelativeLayout>
