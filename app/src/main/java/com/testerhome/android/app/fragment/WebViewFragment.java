@@ -72,7 +72,6 @@ public class WebViewFragment extends BaseFragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    Log.e(TAG, "loadTopicDetail: " + response.getTopic().getBody());
                     showWebContent(response.getTopic().getBody_html());
                 }, error -> {
                     Log.e(TAG, "loadTopicDetail: ", error);
@@ -93,7 +92,7 @@ public class WebViewFragment extends BaseFragment {
                     "<img src=\"https://testerhome.com/photo/"));
             inputStream.close();
         } catch (IOException e) {
-            Log.e("", "Counldn't open updrage-alter.html", e);
+            Log.e("", "Couldn't open md_preview.html", e);
         }
 
         mMarkedView.setBackgroundColor(0);

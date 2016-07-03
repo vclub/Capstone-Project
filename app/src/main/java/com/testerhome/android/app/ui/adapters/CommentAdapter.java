@@ -13,6 +13,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.testerhome.android.app.Config;
 import com.testerhome.android.app.R;
 import com.testerhome.android.app.models.TopicReplyEntity;
+import com.testerhome.android.app.util.StringUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +43,7 @@ public class CommentAdapter extends BaseRecyclerAdapter<TopicReplyEntity> {
 
         viewHolder.userAvatar.setImageURI(Uri.parse(Config.getImageUrl(topicReplyEntity.getUser().getAvatar_url())));
         viewHolder.topicItemAuthor.setText(topicReplyEntity.getUser().getName());
-        viewHolder.topicTime.setText(topicReplyEntity.getCreated_at());
+        viewHolder.topicTime.setText(StringUtils.formatPublishDateTime(topicReplyEntity.getCreated_at()));
         viewHolder.topicItemBody.setText(Html.fromHtml(topicReplyEntity.getBody_html()));
 
         if (position == mItems.size() - 1 && mListener != null) {

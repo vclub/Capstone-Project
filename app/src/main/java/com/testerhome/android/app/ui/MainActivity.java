@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import com.testerhome.android.app.R;
 import com.testerhome.android.app.auth.AppAccountService;
 import com.testerhome.android.app.models.TesterUser;
 import com.testerhome.android.app.networks.TesterHomeApi;
+import com.testerhome.android.app.ui.adapters.BaseRecyclerAdapter;
 import com.testerhome.android.app.ui.adapters.TopicsListAdapter;
 
 import butterknife.BindView;
@@ -45,6 +47,9 @@ public class MainActivity extends BaseActivity
 
     @BindView(R.id.main_recycler_view)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     private SimpleDraweeView mAccountAvatar;
     private TextView mAccountName;
@@ -67,6 +72,8 @@ public class MainActivity extends BaseActivity
         getUserInfo();
     }
 
+    private int mNextCursor = 0;
+
     private void setupView() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -85,8 +92,25 @@ public class MainActivity extends BaseActivity
             onLogoutClick();
         });
 
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            mNextCursor = 0;
+            loadMainInfo();
+        });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mTopicsListAdapter = new TopicsListAdapter(this);
+        mTopicsListAdapter.setListener(new BaseRecyclerAdapter.RecyclerAdapterListener() {
+            @Override
+            public void onEndOfList() {
+                if (mNextCursor > 0) {
+                    loadMainInfo();
+                }
+            }
+
+            @Override
+            public void onListItemClick(Object item) {
+
+            }
+        });
         mRecyclerView.setAdapter(mTopicsListAdapter);
     }
 
@@ -133,13 +157,35 @@ public class MainActivity extends BaseActivity
     }
 
     private void loadMainInfo() {
+
+        if (mSwipeRefreshLayout != null){
+            mSwipeRefreshLayout.setRefreshing(true);
+        }
+
         mSubscription = TesterHomeApi.getInstance().getService()
-                .getTopicsByType(Config.TOPICS_TYPE_RECENT, 20)
+                .getTopicsByType(Config.TOPICS_TYPE_RECENT, mNextCursor * 20)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    mTopicsListAdapter.setItems(response.getTopics());
-                    Log.e(TAG, "loadMainInfo: " + response.getTopics().size());
+                    if (mSwipeRefreshLayout != null && mSwipeRefreshLayout.isRefreshing()){
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                    if (response != null && response.getTopics().size() > 0) {
+                        if (mNextCursor == 0) {
+                            mTopicsListAdapter.setItems(response.getTopics());
+                        } else {
+                            mTopicsListAdapter.addItems(response.getTopics());
+                        }
+
+                        if (response.getTopics().size() == 20) {
+                            mNextCursor += 1;
+                        } else {
+                            mNextCursor = 0;
+                        }
+                    } else {
+                        mNextCursor = 0;
+                    }
+
                 }, error -> {
                     Log.e(TAG, "loadMainInfo: ", error);
                 });

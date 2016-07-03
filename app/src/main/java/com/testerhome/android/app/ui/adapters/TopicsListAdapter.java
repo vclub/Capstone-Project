@@ -56,6 +56,10 @@ public class TopicsListAdapter extends BaseRecyclerAdapter<TopicEntity> {
             TopicEntity info = (TopicEntity) v.getTag();
             mContext.startActivity(new Intent(mContext, TopicDetailActivity.class).putExtra("topicInfo", info));
         });
+
+        if (position == mItems.size() - 1 && mListener != null) {
+            mListener.onEndOfList();
+        }
     }
 
     public class TopicItemViewHolder extends RecyclerView.ViewHolder {

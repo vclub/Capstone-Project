@@ -35,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/id_user_avatar"
         android:layout_toRightOf="@+id/id_topic_item_author"
+        android:layout_toEndOf="@+id/id_topic_item_author"
         tools:text="topic time" />
 
     <TextView
@@ -43,10 +44,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/id_topic_item_author"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/id_user_avatar"
         android:layout_toEndOf="@+id/id_user_avatar"
         android:autoLink="email|web"
+        android:gravity="left|start"
         tools:text="topic content" />
 
 
