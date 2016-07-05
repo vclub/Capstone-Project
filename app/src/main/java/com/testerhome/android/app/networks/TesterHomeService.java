@@ -21,14 +21,14 @@ public interface TesterHomeService {
                                                @Query("offset") int offset);
 
     @GET("topics/{id}.json")
-    Observable<TopicDetailResponse> getTopicById(@Path("id") String id);
+    Observable<TopicDetailResponse> getTopicById(@Path("id") long id);
 
     @GET("greet.json")
     Observable<UserDetailResponse> getCurrentUserInfo(@Query("access_token") String accessToken);
 
 
     @GET("topics/{id}/replies.json")
-    Observable<TopicReplyResponse> getTopicsReplies(@Path("id") String id,
+    Observable<TopicReplyResponse> getTopicsReplies(@Path("id") long id,
                                                     @Query("offset") int offset
     );
 }

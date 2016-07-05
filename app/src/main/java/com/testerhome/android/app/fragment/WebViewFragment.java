@@ -33,9 +33,9 @@ public class WebViewFragment extends BaseFragment {
     @BindView(R.id.loading)
     ProgressBar mProgressBar;
 
-    private String mTopicId;
+    private long mTopicId;
 
-    public static WebViewFragment newInstance(String topicId) {
+    public static WebViewFragment newInstance(long topicId) {
 
         Bundle args = new Bundle();
 
@@ -67,7 +67,7 @@ public class WebViewFragment extends BaseFragment {
         return R.layout.fragment_webview;
     }
 
-    public void loadTopicDetail(String topidId) {
+    public void loadTopicDetail(long topidId) {
         mSubscription = TesterHomeApi.getInstance().getService().getTopicById(topidId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

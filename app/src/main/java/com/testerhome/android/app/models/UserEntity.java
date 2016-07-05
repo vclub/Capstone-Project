@@ -14,6 +14,14 @@ public class UserEntity implements Parcelable {
     private String name;
     private String avatar_url;
 
+    public UserEntity() {
+    }
+
+    public UserEntity(String name, String avatar_url) {
+        this.name = name;
+        this.avatar_url = avatar_url;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -58,9 +66,6 @@ public class UserEntity implements Parcelable {
         dest.writeString(this.login);
         dest.writeString(this.name);
         dest.writeString(this.avatar_url);
-    }
-
-    public UserEntity() {
     }
 
     protected UserEntity(Parcel in) {

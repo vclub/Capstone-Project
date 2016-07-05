@@ -21,10 +21,13 @@ import com.testerhome.android.app.R;
 import com.testerhome.android.app.fragment.CommentListFragment;
 import com.testerhome.android.app.fragment.WebViewFragment;
 import com.testerhome.android.app.models.TopicEntity;
+import com.testerhome.android.app.provider.favorite.FavoriteColumns;
+import com.testerhome.android.app.provider.favorite.FavoriteContentValues;
 import com.testerhome.android.app.util.ImageUrlConvert;
 import com.testerhome.android.app.util.StringUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by Bin Li on 2016/6/15.
@@ -152,5 +155,19 @@ public class TopicDetailActivity extends BackBaseActivity {
         public int getCount() {
             return titles.length;
         }
+    }
+
+    @OnClick(R.id.fab)
+    void onFabClick() {
+        FavoriteContentValues values = new FavoriteContentValues();
+        values.putTopicId(mTopicEntity.getId())
+                .putTitle(mTopicEntity.getTitle())
+                .putCreateAt(mTopicEntity.getCreated_at())
+                .putName(mTopicEntity.getUser().getName())
+                .putAvatarUrl(mTopicEntity.getUser().getAvatar_url())
+                .putNodeName(mTopicEntity.getNode_name());
+
+        getContentResolver().insert(FavoriteColumns.CONTENT_URI, values.values());
+
     }
 }

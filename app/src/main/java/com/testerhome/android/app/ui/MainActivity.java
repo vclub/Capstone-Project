@@ -243,7 +243,7 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
-
+            startActivity(new Intent(this, MyFavoriteActivity.class));
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(this, AboutActivity.class));
         }

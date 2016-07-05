@@ -9,7 +9,7 @@ import android.os.Parcelable;
 
 public class TopicEntity implements Parcelable {
 
-    private String id;
+    private long id;
     private String title;
     private String created_at;
     private String node_name;
@@ -18,11 +18,19 @@ public class TopicEntity implements Parcelable {
     public TopicEntity() {
     }
 
-    public String getId() {
+    public TopicEntity(long id, String title, String created_at, String node_name, String username, String avatar) {
+        this.id = id;
+        this.title = title;
+        this.created_at = created_at;
+        this.node_name = node_name;
+        this.user = new UserEntity(username, avatar);
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -65,7 +73,7 @@ public class TopicEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
+        dest.writeLong(this.id);
         dest.writeString(this.title);
         dest.writeString(this.created_at);
         dest.writeString(this.node_name);
@@ -73,7 +81,7 @@ public class TopicEntity implements Parcelable {
     }
 
     protected TopicEntity(Parcel in) {
-        this.id = in.readString();
+        this.id = in.readLong();
         this.title = in.readString();
         this.created_at = in.readString();
         this.node_name = in.readString();

@@ -28,14 +28,14 @@ public class CommentListFragment extends BaseFragment {
     @BindView(R.id.comment_recycler_view)
     RecyclerView mRecyclerView;
 
-    private String mTopicId;
+    private long mTopicId;
     private int mNextCursor = 0;
 
     private CommentAdapter mAdapter;
 
     private static final String TAG = "CommentListFragment";
 
-    public static CommentListFragment newInstance(String topicId) {
+    public static CommentListFragment newInstance(long topicId) {
         CommentListFragment fragment = new CommentListFragment();
         fragment.mTopicId = topicId;
         return fragment;
