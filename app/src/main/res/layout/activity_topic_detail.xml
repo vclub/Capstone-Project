@@ -55,7 +55,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/bookmark_icon_off"/>
+        android:src="@drawable/bookmark_icon_off"
+        android:contentDescription="@string/add_to_favorite"/>
 
 
 </android.support.design.widget.CoordinatorLayout>

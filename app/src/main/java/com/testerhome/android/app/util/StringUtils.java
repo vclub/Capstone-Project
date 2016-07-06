@@ -1,5 +1,7 @@
 package com.testerhome.android.app.util;
 
+import android.text.TextUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,7 +13,9 @@ import java.util.Locale;
 
 public class StringUtils {
     public static String formatPublishDateTime(String begin) {
-
+        if (TextUtils.isEmpty(begin)){
+            return "";
+        }
         SimpleDateFormat sDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault());
         SimpleDateFormat outDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 

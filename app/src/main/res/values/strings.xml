@@ -11,4 +11,11 @@
     <string name="action_topic_detail_share">Share</string>
 
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="my_favorite">My Favorite</string>
+    <string name="home">Home</string>
+    <string name="about">About</string>
+    <string name="search">search</string>
+    <string name="logout">Logout</string>
+    <string name="android_studio">Android Studio</string>
+    <string name="add_to_favorite">add to favorite</string>
 </resources>

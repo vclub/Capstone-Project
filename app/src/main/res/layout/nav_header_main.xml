@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sdv_account_avatar"
-        android:text="Android Studio"
+        android:text="@string/android_studio"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     <Button
@@ -33,6 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:text="Logout"
+        android:text="@string/logout"
         />
 </RelativeLayout>
