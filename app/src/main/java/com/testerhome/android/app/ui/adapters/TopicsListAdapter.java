@@ -3,6 +3,7 @@ package com.testerhome.android.app.ui.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.testerhome.android.app.R;
 import com.testerhome.android.app.models.TopicEntity;
+import com.testerhome.android.app.ui.MainActivity;
 import com.testerhome.android.app.ui.TopicDetailActivity;
 import com.testerhome.android.app.util.ImageUrlConvert;
 import com.testerhome.android.app.util.StringUtils;
@@ -54,7 +56,10 @@ public class TopicsListAdapter extends BaseRecyclerAdapter<TopicEntity> {
         holder.topicItem.setTag(topic);
         holder.topicItem.setOnClickListener(v -> {
             TopicEntity info = (TopicEntity) v.getTag();
-            mContext.startActivity(new Intent(mContext, TopicDetailActivity.class).putExtra("topicInfo", info));
+            Intent intent = new Intent(mContext, TopicDetailActivity.class);
+            intent.putExtra("topicInfo", info);
+            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((MainActivity)mContext, v, "avatar");
+            mContext.startActivity(intent, optionsCompat.toBundle());
         });
 
         if (position == mItems.size() - 1 && mListener != null) {

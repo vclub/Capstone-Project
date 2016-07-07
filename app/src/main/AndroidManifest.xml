@@ -23,6 +23,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -31,10 +32,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.TopicDetailActivity"/>
-        <activity android:name=".ui.LoginActivity"/>
-        <activity android:name=".ui.MyFavoriteActivity"/>
-        <activity android:name=".ui.AboutActivity"/>
+        <activity android:name=".ui.TopicDetailActivity" android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name=".ui.LoginActivity" android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name=".ui.MyFavoriteActivity" android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name=".ui.AboutActivity" android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <service
             android:name=".auth.AccountService"

@@ -20,6 +20,7 @@ public abstract class BackBaseActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            supportFinishAfterTransition();
             this.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
