@@ -1,9 +1,11 @@
 package com.testerhome.android.app.ui;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,6 +25,7 @@ import com.testerhome.android.app.fragment.WebViewFragment;
 import com.testerhome.android.app.models.TopicEntity;
 import com.testerhome.android.app.provider.favorite.FavoriteColumns;
 import com.testerhome.android.app.provider.favorite.FavoriteContentValues;
+import com.testerhome.android.app.provider.favorite.FavoriteSelection;
 import com.testerhome.android.app.util.ImageUrlConvert;
 import com.testerhome.android.app.util.StringUtils;
 
@@ -90,6 +93,8 @@ public class TopicDetailActivity extends BackBaseActivity {
         topicUsername.setText(TextUtils.isEmpty(mTopicEntity.getUser().getName()) ? mTopicEntity.getUser().getLogin() : mTopicEntity.getUser().getName());
         topicPublishDate.setText(StringUtils.formatPublishDateTime(mTopicEntity.getCreated_at()));
         topicName.setText(mTopicEntity.getNode_name());
+
+        initFabIcon();
     }
 
     private ShareActionProvider mShareActionProvider;
@@ -157,17 +162,54 @@ public class TopicDetailActivity extends BackBaseActivity {
         }
     }
 
+    @BindView(R.id.fab)
+    FloatingActionButton mFloatingActionButton;
+
+    private void initFabIcon(){
+        FavoriteSelection where = new FavoriteSelection();
+        where.id(mTopicEntity.getId());
+
+        Cursor c = getContentResolver().query(FavoriteColumns.CONTENT_URI, FavoriteColumns.ALL_COLUMNS, where.sel(), where.args(), null);
+
+        if (c == null || c.getCount() <= 0) {
+            mFloatingActionButton.setImageResource(R.drawable.bookmark_icon_off);
+        } else {
+            mFloatingActionButton.setImageResource(R.drawable.bookmark_icon_on);
+        }
+        if (c != null) {
+            c.close();
+        }
+    }
+
     @OnClick(R.id.fab)
     void onFabClick() {
-        FavoriteContentValues values = new FavoriteContentValues();
-        values.putTopicId(mTopicEntity.getId())
-                .putTitle(mTopicEntity.getTitle())
-                .putCreateAt(mTopicEntity.getCreated_at())
-                .putName(mTopicEntity.getUser().getName())
-                .putAvatarUrl(mTopicEntity.getUser().getAvatar_url())
-                .putNodeName(mTopicEntity.getNode_name());
 
-        getContentResolver().insert(FavoriteColumns.CONTENT_URI, values.values());
+        // check if has in db
+        FavoriteSelection where = new FavoriteSelection();
+        where.id(mTopicEntity.getId());
+
+        Cursor c = getContentResolver().query(FavoriteColumns.CONTENT_URI, FavoriteColumns.ALL_COLUMNS, where.sel(), where.args(), null);
+
+        if (c == null || c.getCount() <= 0) {
+            FavoriteContentValues values = new FavoriteContentValues();
+            values.putTopicId(mTopicEntity.getId())
+                    .putTitle(mTopicEntity.getTitle())
+                    .putCreateAt(mTopicEntity.getCreated_at())
+                    .putName(mTopicEntity.getUser().getName())
+                    .putAvatarUrl(mTopicEntity.getUser().getAvatar_url())
+                    .putNodeName(mTopicEntity.getNode_name());
+
+            getContentResolver().insert(FavoriteColumns.CONTENT_URI, values.values());
+
+            mFloatingActionButton.setImageResource(R.drawable.bookmark_icon_on);
+        } else {
+            getContentResolver().delete(FavoriteColumns.CONTENT_URI, where.sel(), where.args());
+
+            mFloatingActionButton.setImageResource(R.drawable.bookmark_icon_off);
+        }
+        if (c != null) {
+            c.close();
+        }
 
     }
 }

@@ -7,7 +7,6 @@ import android.webkit.WebView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
-import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
@@ -35,7 +34,7 @@ public class TesterHomeApp extends Application {
         }
 
         LeakCanary.install(this);
-        Stetho.initializeWithDefaults(this);
+
 
         mTracker = getDefaultTracker();
         mTracker.enableExceptionReporting(true);

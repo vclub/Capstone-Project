@@ -18,4 +18,5 @@
     <string name="logout">Logout</string>
     <string name="android_studio">Android Studio</string>
     <string name="add_to_favorite">add to favorite</string>
+    <string name="please_login_by_click_on_the_avatar">Please login by click on the avatar</string>
 </resources>

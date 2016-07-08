@@ -54,7 +54,8 @@ public class WebViewFragment extends BaseFragment {
         mMarkedView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                mProgressBar.setVisibility(View.GONE);
+                if (mProgressBar != null)
+                    mProgressBar.setVisibility(View.GONE);
                 super.onPageFinished(view, url);
             }
         });
@@ -67,8 +68,8 @@ public class WebViewFragment extends BaseFragment {
         return R.layout.fragment_webview;
     }
 
-    public void loadTopicDetail(long topidId) {
-        mSubscription = TesterHomeApi.getInstance().getService().getTopicById(topidId)
+    public void loadTopicDetail(long topicId) {
+        mSubscription = TesterHomeApi.getInstance().getService().getTopicById(topicId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {

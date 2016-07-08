@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -31,7 +30,6 @@ import com.testerhome.android.app.ui.adapters.BaseRecyclerAdapter;
 import com.testerhome.android.app.ui.adapters.TopicsListAdapter;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -134,7 +132,7 @@ public class MainActivity extends BaseActivity
             mLogout.setVisibility(View.VISIBLE);
         } else {
             mAccountAvatar.setImageResource(R.mipmap.ic_launcher);
-            mAccountName.setText("Please login by click on the avatar");
+            mAccountName.setText(R.string.please_login_by_click_on_the_avatar);
             mLogout.setVisibility(View.GONE);
         }
     }
@@ -148,12 +146,6 @@ public class MainActivity extends BaseActivity
 
     private void onAvatarClick() {
         startActivity(new Intent(this, LoginActivity.class));
-    }
-
-    @OnClick(R.id.fab)
-    void onFabClick(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
     }
 
     private void loadMainInfo() {
