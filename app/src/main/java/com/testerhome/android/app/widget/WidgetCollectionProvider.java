@@ -37,7 +37,7 @@ public class WidgetCollectionProvider extends AppWidgetProvider {
         RemoteViews mView = new RemoteViews(context.getPackageName(),
                 R.layout.favorite_collection_widget);
 
-        mView.setTextViewText(R.id.tv_topic_title, "My favorite");
+        mView.setTextViewText(R.id.tv_topic_title, context.getString(R.string.my_favorite));
 
         mView.setRemoteAdapter(widgetId, intent);
 

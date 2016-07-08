@@ -135,7 +135,7 @@ public class TopicDetailActivity extends BackBaseActivity {
 
     public class TabPageAdapter extends FragmentPagerAdapter {
 
-        private String[] titles = {"topic", "commend"};
+        private String[] titles = {getString(R.string.topic), getString(R.string.commend)};
 
         public TabPageAdapter(FragmentManager fm) {
             super(fm);

@@ -49,7 +49,7 @@ public class LoginActivity extends BackBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        setTitle("Login");
+        setTitle(getString(R.string.login));
 
         setupView();
     }
@@ -94,7 +94,7 @@ public class LoginActivity extends BackBaseActivity {
         @Override
         protected void onPreExecute() {
             pd = DialogUtils.createProgressDialog(LoginActivity.this);
-            pd.setMessage("正在登录");
+            pd.setMessage(getString(R.string.logging));
             pd.setCancelable(false);
             pd.show();
 

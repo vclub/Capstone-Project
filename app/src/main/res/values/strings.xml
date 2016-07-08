@@ -19,4 +19,8 @@
     <string name="android_studio">Android Studio</string>
     <string name="add_to_favorite">add to favorite</string>
     <string name="please_login_by_click_on_the_avatar">Please login by click on the avatar</string>
+    <string name="topic">topic</string>
+    <string name="commend">commend</string>
+    <string name="login">Login</string>
+    <string name="logging">正在登录</string>
 </resources>
