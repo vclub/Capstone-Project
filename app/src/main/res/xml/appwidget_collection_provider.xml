@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
                     android:initialLayout="@layout/favorite_collection_widget"
-                    android:minHeight="110dp"
-                    android:minWidth="@dimen/score_widget_min_width"
-                    android:resizeMode="vertical|horizontal"
+                    android:minHeight="294dp"
+                    android:minResizeHeight="294dp"
+                    android:minResizeWidth="294dp"
+                    android:minWidth="294dp"
+                    android:resizeMode="vertical"
                     android:updatePeriodMillis="86400000"
                     android:widgetCategory="keyguard|home_screen">
 

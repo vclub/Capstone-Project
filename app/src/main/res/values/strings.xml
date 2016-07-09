@@ -23,4 +23,5 @@
     <string name="commend">commend</string>
     <string name="login">Login</string>
     <string name="logging">正在登录</string>
+    <string name="testerhome_widget_title">TesterHome App Widget</string>
 </resources>

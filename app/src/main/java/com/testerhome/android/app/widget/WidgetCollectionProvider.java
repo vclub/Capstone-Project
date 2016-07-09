@@ -16,14 +16,26 @@ import com.testerhome.android.app.R;
 
 public class WidgetCollectionProvider extends AppWidgetProvider {
 
+    public static final String ACTION_REFRESH_MANUAL = "testerhome.action.APPWIDGET_REFRESH_MANUAL";
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (ACTION_REFRESH_MANUAL.equals(intent.getAction())){
+            FavoriteRemoteViews remoteViews = new FavoriteRemoteViews(context);
+            remoteViews.loading();
+            remoteViews.notifyAppWidgetViewDataChanged();
+        }
+        super.onReceive(context, intent);
+    }
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        for (int widgetId : appWidgetIds) {
-            RemoteViews remoteViews = initViews(context, appWidgetManager, widgetId);
-            appWidgetManager.updateAppWidget(widgetId, remoteViews);
 
-            appWidgetManager.notifyAppWidgetViewDataChanged(widgetId, R.id.widgetCollectionList);
-        }
+        FavoriteRemoteViews favoriteRemoteViews = new FavoriteRemoteViews(context);
+        favoriteRemoteViews.setOnRefreshClickPendingIntent();
+        favoriteRemoteViews.bindListViewAdapter();
+        appWidgetManager.updateAppWidget(appWidgetIds, favoriteRemoteViews);
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     private RemoteViews initViews(Context context,
